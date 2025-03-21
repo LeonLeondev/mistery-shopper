@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Mystery Shopper AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #0056b3;
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scenario-selector {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .chat-container {
+            display: flex;
+            gap: 20px;
+            height: 70vh;
+        }
+        .chat-window {
+            flex: 2;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .customer-profile {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .evaluation-panel {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .chat-input button {
+            padding: 12px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .customer {
+            background-color: #e3f2fd;
+            align-self: flex-start;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .agent {
+            background-color: #e8f5e9;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            text-align: right;
+        }
+        .timestamp {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        .criteria-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .criteria-item label {
+            margin-right: 10px;
+        }
+        select, button {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button.primary {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .mt-4 {
+            margin-top: 20px;
+        }
+        h3 {
+            color: #0056b3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .badge {
+            background-color: #e3f2fd;
+            color: #0056b3;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .stage-indicator {
+            background-color: #ffecb3;
+            color: #ff6f00;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Simulador de Mystery Shopper AI</h1>
+            <button id="reset-btn" class="primary">Reiniciar Simulación</button>
+        </div>
+        
+        <div class="scenario-selector">
+            <h2>Selecciona un escenario</h2>
+            <div class="flex">
+                <select id="scenario-select" style="flex: 1; margin-right: 10px;">
+                    <option value="tech_support">Soporte Técnico - Internet Lento</option>
+                    <option value="billing_inquiry">Consulta de Facturación - Cargo No Reconocido</option>
+                </select>
+                <button id="start-btn" class="primary">Iniciar Simulación</button>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-window">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Los mensajes aparecerán aquí -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="agent-input" placeholder="Escribe tu respuesta como agente de call center...">
+                    <button id="send-btn">Enviar</button>
+                </div>
+            </div>
+            
+            <div class="flex flex-col" style="flex: 1; gap: 20px;">
+                <div class="customer-profile">
+                    <h3>Perfil del Cliente</h3>
+                    <div id="profile-content">
+                        <p>Selecciona un escenario para iniciar la simulación.</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h3>Etapa Actual</h3>
+                        <div id="current-stage"></div>
+                    </div>
+                </div>
+                
+                <div class="evaluation-panel">
+                    <h3>Evaluación en Tiempo Real</h3>
+                    <div id="evaluation-content">
+                        <p>La evaluación aparecerá al finalizar la simulación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Estructura de escenarios
+        const scenarios = [
+            {
+                id: "tech_support",
+                name: "Soporte Técnico - Internet Lento",
+                customerProfile: {
+                    name: "Miguel Santos",
+                    age: 42,
+                    problem: "Internet lento en horas pico",
+                    history: "Cliente desde hace 3 años, un incidente previo hace 6 meses",
+                    mood: "frustrado pero paciente",
+                    expectedSolution: "Diagnóstico y mejora de velocidad"
+                },
+                script: [
+                    {
+                        stage: "introducción",
+                        questions: [
+                            "Hola, buenos días/tardes. Estoy llamando porque tengo problemas con mi servicio de internet, ¿me podría ayudar?",
+                            "Mi nombre es Miguel Santos, soy cliente desde hace unos 3 años."
+                        ],
+                        expectedInfo: ["Saludo", "Identificación del agente", "Ofrecimiento de ayuda"]
+                    },
+                    {
+                        stage: "descripción_problema",
+                        questions: [
+                            "Mi internet ha estado funcionando muy lento últimamente, especialmente entre las 7 y 10 de la noche.",
+                            "Tengo el paquete de 100 Mbps, pero cuando hago pruebas de velocidad apenas llego a 15-20 Mbps.",
+                            "Esto comenzó hace aproximadamente dos semanas."
+                        ],
+                        expectedInfo: ["Escucha activa", "Preguntas de aclaración", "Toma de datos"]
+                    },
+                    {
+                        stage: "solución_inicial",
+                        questions: [
+                            "Sí, ya intenté reiniciar el router varias veces pero el problema persiste.",
+                            "El router está en un lugar central de la casa, no hay obstáculos importantes.",
+                            "¿Hay alguna otra cosa que pueda intentar desde casa?"
+                        ],
+                        expectedInfo: ["Sugerencias iniciales", "Pasos a seguir", "Claridad en instrucciones"]
+                    },
+                    {
+                        stage: "escalamiento",
+                        questions: [
+                            "¿Sería posible que un técnico revise la conexión? ¿Cuánto tiempo tomaría esto?",
+                            "Entiendo que hay procedimientos, pero esto afecta mi trabajo que hago desde casa.",
+                            "¿Hay alguna compensación disponible por los días sin servicio adecuado?"
+                        ],
+                        expectedInfo: ["Proceso de escalamiento", "Tiempos de resolución", "Políticas de compensación"]
+                    },
+                    {
+                        stage: "cierre",
+                        questions: [
+                            "Entonces, para confirmar, ¿vendrá un técnico el jueves entre 9 AM y 1 PM?",
+                            "¿Me podría proporcionar un número de caso para dar seguimiento?",
+                            "Gracias por su ayuda. ¿Hay algo más que deba saber?"
+                        ],
+                        expectedInfo: ["Resumen de solución", "Número de seguimiento", "Despedida cordial"]
+                    }
+                ],
+                evaluationCriteria: [
+                    "Tiempo de respuesta inicial",
+                    "Empatía mostrada con el problema",
+                    "Conocimiento técnico",
+                    "Claridad en las explicaciones",
+                    "Eficiencia en la resolución",
+                    "Seguimiento de protocolos",
+                    "Satisfacción general"
+                ]
+            },
+            {
+                id: "billing_inquiry",
+                name: "Consulta de Facturación - Cargo No Reconocido",
+                customerProfile: {
+                    name: "Carmen Ruiz",
+                    age: 35,
+                    problem: "Cargo adicional no reconocido en factura mensual",
+                    history: "Cliente desde hace 1 año, sin incidentes previos",
+                    mood: "confundida y algo molesta",
+                    expectedSolution: "Explicación o eliminación del cargo"
+                },
+                script: [
+                    {
+                        stage: "introducción",
+                        questions: [
+                            "Hola, estoy llamando porque acabo de recibir mi factura y hay un cargo que no entiendo.",
+                            "Mi nombre es Carmen Ruiz, tengo el plan familiar básico."
+                        ],
+                        expectedInfo: ["Saludo", "Identificación del agente", "Ofrecimiento de ayuda"]
+                    },
+                    {
+                        stage: "descripción_problema",
+                        questions: [
+                            "En mi factura hay un cargo de $29.99 por 'Servicios Premium' que nunca solicité.",
+                            "Mi factura normalmente es de $59.99, pero este mes es de $89.98.",
+                            "No he hecho ningún cambio a mi servicio en los últimos meses."
+                        ],
+                        expectedInfo: ["Verificación de cuenta", "Revisión de factura", "Confirmación del problema"]
+                    },
+                    {
+                        stage: "investigación",
+                        questions: [
+                            "No, nunca autoricé ese cargo ni solicité ningún servicio adicional.",
+                            "¿Puede decirme exactamente qué incluye ese 'Servicio Premium'?",
+                            "¿Cómo es posible que se haya agregado sin mi autorización?"
+                        ],
+                        expectedInfo: ["Búsqueda en sistema", "Explicación clara", "Transparencia"]
+                    },
+                    {
+                        stage: "resolución",
+                        questions: [
+                            "Quiero que se elimine ese cargo de mi factura actual.",
+                            "¿Puedo recibir confirmación por escrito de que esto se ha resuelto?",
+                            "¿Cómo puedo evitar que esto suceda en el futuro?"
+                        ],
+                        expectedInfo: ["Solución ofrecida", "Ajuste de factura", "Medidas preventivas"]
+                    },
+                    {
+                        stage: "cierre",
+                        questions: [
+                            "¿En cuánto tiempo veré el ajuste reflejado en mi cuenta?",
+                            "¿Me pueden enviar la factura corregida por email?",
+                            "Gracias por su ayuda. ¿Hay algo más que deba saber?"
+                        ],
+                        expectedInfo: ["Confirmación de solución", "Número de seguimiento", "Despedida cordial"]
+                    }
+                ],
+                evaluationCriteria: [
+                    "Tiempo de respuesta inicial",
+                    "Empatía con la frustración del cliente",
+                    "Conocimiento de políticas de facturación",
+                    "Transparencia en la explicación",
+                    "Eficiencia en la resolución",
+                    "Seguimiento de protocolos",
+                    "Satisfacción general"
+                ]
+            }
+        ];
+
+        // Variables de estado
+        let currentScenario = null;
+        let currentStageIndex = 0;
+        let currentQuestionIndex = 0;
+        let evaluationResults = {};
+        let conversationLog = [];
+
+        // Elementos DOM
+        const scenarioSelect = document.getElementById('scenario-select');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const chatMessages = document.getElementById('chat-messages');
+        const agentInput = document.getElementById('agent-input');
+        const sendBtn = document.getElementById('send-btn');
+        const profileContent = document.getElementById('profile-content');
+        const currentStageEl = document.getElementById('current-stage');
+        const evaluationContent = document.getElementById('evaluation-content');
+
+        // Función para iniciar la simulación
+        function startSimulation() {
+            const scenarioId = scenarioSelect.value;
+            currentScenario = scenarios.find(s => s.id === scenarioId);
+            
+            if (!currentScenario) return;
+            
+            // Reiniciar variables
+            currentStageIndex = 0;
+            currentQuestionIndex = 0;
+            evaluationResults = {};
+            conversationLog = [];
+            
+            // Limpiar chat
+            chatMessages.innerHTML = '';
+            
+            // Mostrar perfil del cliente
+            displayCustomerProfile();
+            
+            // Enviar primer mensaje
+            sendCustomerMessage();
+            
+            // Desactivar selector de escenario
+            scenarioSelect.disabled = true;
+            startBtn.disabled = true;
+        }
+
+        // Mostrar perfil del cliente
+        function displayCustomerProfile() {
+            const profile = currentScenario.customerProfile;
+            profileContent.innerHTML = `
+                <div>
+                    <p><strong>Nombre:</strong> ${profile.name}</p>
+                    <p><strong>Edad:</strong> ${profile.age}</p>
+                    <p><strong>Problema:</strong> ${profile.problem}</p>
+                    <p><strong>Historial:</strong> ${profile.history}</p>
+                    <p><strong>Estado de ánimo:</strong> ${profile.mood}</p>
+                    <p><strong>Solución esperada:</strong> ${profile.expectedSolution}</p>
+                </div>
+                <div class="mt-4">
+                    <h4>Puntos a evaluar:</h4>
+                    <div>
+                        ${currentScenario.evaluationCriteria.map(criteria => 
+                            `<span class="badge">${criteria}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            updateStageDisplay();
+        }
+
+        // Actualizar visualización de etapa actual
+        function updateStageDisplay() {
+            if (!currentScenario) return;
+            
+            const currentStage = currentScenario.script[currentStageIndex];
+            currentStageEl.innerHTML = `
+                <div class="stage-indicator">Etapa: ${formatStageName(currentStage.stage)}</div>
+                <p><strong>Expectativas:</strong></p>
+                <ul>
+                    ${currentStage.expectedInfo.map(info => `<li>${info}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        // Formato para nombre de etapa
+        function formatStageName(stageName) {
+            return stageName.charAt(0).toUpperCase() + stageName.slice(1).replace('_', ' ');
+        }
+
+        // Enviar mensaje del cliente
+        function sendCustomerMessage() {
+            if (!currentScenario) return;
+            
+            const currentStage = currentScenario.script[currentStageIndex];
+            if (!currentStage || currentQuestionIndex >= currentStage.questions.length) {
+                // Pasar a la siguiente etapa si hay más
+                if (currentStageIndex < currentScenario.script.length - 1) {
+                    currentStageIndex++;
+                    currentQuestionIndex = 0;
+                    updateStageDisplay();
+                    setTimeout(sendCustomerMessage, 1000);
+                } else {
+                    // Fin de la simulación
+                    displayEvaluation();
+                }
+                return;
+            }
+            
+            const message = currentStage.questions[currentQuestionIndex];
+            addMessageToChat(message, 'customer');
+            
+            // Incrementar para la siguiente pregunta
+            currentQuestionIndex++;
+        }
+
+        // Procesar respuesta del agente
+        function processAgentResponse(response) {
+            if (!currentScenario || !response.trim()) return;
+            
+            addMessageToChat(response, 'agent');
+            
+            // Registrar en el log de conversación
+            conversationLog.push({
+                stage: currentScenario.script[currentStageIndex].stage,
+                customer: currentScenario.script[currentStageIndex].questions[currentQuestionIndex - 1],
+                agent: response,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Esperar un momento y continuar con la conversación
+            setTimeout(sendCustomerMessage, 1000);
+        }
+
+        // Añadir mensaje al chat
+        function addMessageToChat(message, sender) {
+            const msgElement = document.createElement('div');
+            msgElement.classList.add('message', sender);
+            
+            const senderName = sender === 'customer' 
+                ? currentScenario.customerProfile.name 
+                : 'Agente de Call Center';
+            
+            msgElement.innerHTML = `
+                <div><strong>${senderName}:</strong></div>
+                <div>${message}</div>
+                <div class="timestamp">${new Date().toLocaleTimeString()}</div>
+            `;
+            
+            chatMessages.appendChild(msgElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Mostrar evaluación final
+        function displayEvaluation() {
+            // Análisis simple de la conversación
+            const evaluation = analyzeConversation();
+            
+            evaluationContent.innerHTML = `
+                <h4>Resultados de la Evaluación</h4>
+                <div class="criteria-ratings">
+                    ${Object.entries(evaluation.scores).map(([criteria, score]) => `
+                        <div class="criteria-item">
+                            <label>${criteria}:</label>
+                            <progress value="${score}" max="5"></progress>
+                            <span>${score}/5</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-4">
+                    <h4>Puntuación Total: ${evaluation.totalScore}/${evaluation.maxPossibleScore}</h4>
+                    <p><strong>Fortalezas:</strong> ${evaluation.strengths.join(', ')}</p>
+                    <p><strong>Áreas de mejora:</strong> ${evaluation.areasToImprove.join(', ')}</p>
+                </div>
+                <div class="mt-4">
+                    <button id="download-report" class="primary">Descargar Informe Completo</button>
+                </div>
+            `;
+            
+            // Añadir funcionalidad de descarga (simulada)
+            document.getElementById('download-report').addEventListener('click', () => {
+                alert('En una implementación completa, aquí se descargaría un informe detallado en PDF o Excel.');
+            });
+        }
+
+        // Analizar la conversación para evaluación
+        function analyzeConversation() {
+            // En una implementación real, aquí se usaría IA para analizar
+            // las respuestas y evaluar según criterios. Esta es una simulación simple.
+            
+            const scores = {};
+            currentScenario.evaluationCriteria.forEach(criteria => {
+                // Simulación de puntuación entre 3 y 5
+                scores[criteria] = Math.floor(Math.random() * 3) + 3;
+            });
+            
+            const totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
+            const maxPossibleScore = currentScenario.evaluationCriteria.length * 5;
+            
+            // Determinar fortalezas y áreas de mejora
+            const strengths = [];
+            const areasToImprove = [];
+            
+            Object.entries(scores).forEach(([criteria, score]) => {
+                if (score >= 4) {
+                    strengths.push(criteria);
+                } else {
+                    areasToImprove.push(criteria);
+                }
+            });
+            
+            return {
+                scores,
+                totalScore,
+                maxPossibleScore,
+                strengths,
+                areasToImprove
+            };
+        }
+
+        // Resetear simulación
+        function resetSimulation() {
+            currentScenario = null;
+            currentStageIndex = 0;
+            currentQuestionIndex = 0;
+            
+            chatMessages.innerHTML = '';
+            profileContent.innerHTML = '<p>Selecciona un escenario para iniciar la simulación.</p>';
+            currentStageEl.innerHTML = '';
+            evaluationContent.innerHTML = '<p>La evaluación aparecerá al finalizar la simulación.</p>';
+            
+            scenarioSelect.disabled = false;
+            startBtn.disabled = false;
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startSimulation);
+        resetBtn.addEventListener('click', resetSimulation);
+        
+        sendBtn.addEventListener('click', () => {
+            const response = agentInput.value;
+            if (response.trim()) {
+                processAgentResponse(response);
+                agentInput.value = '';
+            }
+        });
+        
+        agentInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const response = agentInput.value;
+                if (response.trim()) {
+                    processAgentResponse(response);
+                    agentInput.value = '';
+                }
+            }
+        });
+        
+        // Inicialización
+        resetSimulation();
+    </script>
+</body>
+</html>
