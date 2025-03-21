@@ -1,0 +1,639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="es"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Simulador de Mystery Shopper AI&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f5f7fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 1200px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0056b3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px 8px 0 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.scenario-selector {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 70vh;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-window {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.customer-profile {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.evaluation-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 10px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-messages {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f9f9f9;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-input {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-input input {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chat-input button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0056b3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.message {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 18px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 80%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>word-wrap: break-word;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.customer {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e3f2fd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-self: flex-start;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom-left-radius: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.agent {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e8f5e9;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-self: flex-end;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom-right-radius: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: right;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.timestamp {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #888;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.criteria-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.criteria-item label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>select, button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button.primary {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #0056b3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.flex {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.flex-col {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.mt-4 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>h3 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #0056b3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 2px solid #eee;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.badge {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e3f2fd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #0056b3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 5px 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stage-indicator {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ffecb3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #ff6f00;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1&gt;Simulador de Mystery Shopper AI&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="reset-btn" class="primary"&gt;Reiniciar Simulación&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="scenario-selector"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Selecciona un escenario&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="scenario-select" style="flex: 1; margin-right: 10px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="tech_support"&gt;Soporte Técnico - Internet Lento&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="billing_inquiry"&gt;Consulta de Facturación - Cargo No Reconocido&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="start-btn" class="primary"&gt;Iniciar Simulación&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="chat-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="chat-window"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="chat-messages" id="chat-messages"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- Los mensajes aparecerán aquí --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="chat-input"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="text" id="agent-input" placeholder="Escribe tu respuesta como agente de call center..."&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="send-btn"&gt;Enviar&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-col" style="flex: 1; gap: 20px;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="customer-profile"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;Perfil del Cliente&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="profile-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;Selecciona un escenario para iniciar la simulación.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3&gt;Etapa Actual&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div id="current-stage"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="evaluation-panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3&gt;Evaluación en Tiempo Real&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="evaluation-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;La evaluación aparecerá al finalizar la simulación.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Estructura de escenarios</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const scenarios = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "tech_support",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Soporte Técnico - Internet Lento",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>customerProfile: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>name: "Miguel Santos",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>age: 42,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>problem: "Internet lento en horas pico",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>history: "Cliente desde hace 3 años, un incidente previo hace 6 meses",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>mood: "frustrado pero paciente",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>expectedSolution: "Diagnóstico y mejora de velocidad"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>script: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "introducción",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Hola, buenos días/tardes. Estoy llamando porque tengo problemas con mi servicio de internet, ¿me podría ayudar?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Mi nombre es Miguel Santos, soy cliente desde hace unos 3 años."</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Saludo", "Identificación del agente", "Ofrecimiento de ayuda"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "descripción_problema",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Mi internet ha estado funcionando muy lento últimamente, especialmente entre las 7 y 10 de la noche.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Tengo el paquete de 100 Mbps, pero cuando hago pruebas de velocidad apenas llego a 15-20 Mbps.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Esto comenzó hace aproximadamente dos semanas."</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Escucha activa", "Preguntas de aclaración", "Toma de datos"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "solución_inicial",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Sí, ya intenté reiniciar el router varias veces pero el problema persiste.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"El router está en un lugar central de la casa, no hay obstáculos importantes.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Hay alguna otra cosa que pueda intentar desde casa?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Sugerencias iniciales", "Pasos a seguir", "Claridad en instrucciones"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "escalamiento",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Sería posible que un técnico revise la conexión? ¿Cuánto tiempo tomaría esto?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Entiendo que hay procedimientos, pero esto afecta mi trabajo que hago desde casa.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Hay alguna compensación disponible por los días sin servicio adecuado?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Proceso de escalamiento", "Tiempos de resolución", "Políticas de compensación"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "cierre",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Entonces, para confirmar, ¿vendrá un técnico el jueves entre 9 AM y 1 PM?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Me podría proporcionar un número de caso para dar seguimiento?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Gracias por su ayuda. ¿Hay algo más que deba saber?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Resumen de solución", "Número de seguimiento", "Despedida cordial"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>evaluationCriteria: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Tiempo de respuesta inicial",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Empatía mostrada con el problema",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Conocimiento técnico",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Claridad en las explicaciones",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Eficiencia en la resolución",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Seguimiento de protocolos",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Satisfacción general"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "billing_inquiry",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Consulta de Facturación - Cargo No Reconocido",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>customerProfile: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>name: "Carmen Ruiz",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>age: 35,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>problem: "Cargo adicional no reconocido en factura mensual",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>history: "Cliente desde hace 1 año, sin incidentes previos",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>mood: "confundida y algo molesta",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>expectedSolution: "Explicación o eliminación del cargo"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>script: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "introducción",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Hola, estoy llamando porque acabo de recibir mi factura y hay un cargo que no entiendo.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Mi nombre es Carmen Ruiz, tengo el plan familiar básico."</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Saludo", "Identificación del agente", "Ofrecimiento de ayuda"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "descripción_problema",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"En mi factura hay un cargo de $29.99 por 'Servicios Premium' que nunca solicité.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Mi factura normalmente es de $59.99, pero este mes es de $89.98.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"No he hecho ningún cambio a mi servicio en los últimos meses."</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Verificación de cuenta", "Revisión de factura", "Confirmación del problema"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "investigación",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"No, nunca autoricé ese cargo ni solicité ningún servicio adicional.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Puede decirme exactamente qué incluye ese 'Servicio Premium'?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Cómo es posible que se haya agregado sin mi autorización?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Búsqueda en sistema", "Explicación clara", "Transparencia"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "resolución",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Quiero que se elimine ese cargo de mi factura actual.",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Puedo recibir confirmación por escrito de que esto se ha resuelto?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Cómo puedo evitar que esto suceda en el futuro?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Solución ofrecida", "Ajuste de factura", "Medidas preventivas"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>stage: "cierre",</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>questions: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿En cuánto tiempo veré el ajuste reflejado en mi cuenta?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"¿Me pueden enviar la factura corregida por email?",</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>"Gracias por su ayuda. ¿Hay algo más que deba saber?"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>expectedInfo: ["Confirmación de solución", "Número de seguimiento", "Despedida cordial"]</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>evaluationCriteria: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Tiempo de respuesta inicial",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Empatía con la frustración del cliente",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Conocimiento de políticas de facturación",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Transparencia en la explicación",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Eficiencia en la resolución",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Seguimiento de protocolos",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"Satisfacción general"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Variables de estado</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentScenario = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentStageIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentQuestionIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let evaluationResults = {};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let conversationLog = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Elementos DOM</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const scenarioSelect = document.getElementById('scenario-select');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const startBtn = document.getElementById('start-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const resetBtn = document.getElementById('reset-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const chatMessages = document.getElementById('chat-messages');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const agentInput = document.getElementById('agent-input');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const sendBtn = document.getElementById('send-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const profileContent = document.getElementById('profile-content');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const currentStageEl = document.getElementById('current-stage');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const evaluationContent = document.getElementById('evaluation-content');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Función para iniciar la simulación</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startSimulation() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const scenarioId = scenarioSelect.value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentScenario = scenarios.find(s =&gt; s.id === scenarioId);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentScenario) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Reiniciar variables</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentStageIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentQuestionIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>evaluationResults = {};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>conversationLog = [];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Limpiar chat</p>
+<p class="p1"><span class="Apple-converted-space">            </span>chatMessages.innerHTML = '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Mostrar perfil del cliente</p>
+<p class="p1"><span class="Apple-converted-space">            </span>displayCustomerProfile();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Enviar primer mensaje</p>
+<p class="p1"><span class="Apple-converted-space">            </span>sendCustomerMessage();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Desactivar selector de escenario</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scenarioSelect.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>startBtn.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Mostrar perfil del cliente</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function displayCustomerProfile() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const profile = currentScenario.customerProfile;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>profileContent.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Nombre:&lt;/strong&gt; ${profile.name}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Edad:&lt;/strong&gt; ${profile.age}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Problema:&lt;/strong&gt; ${profile.problem}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Historial:&lt;/strong&gt; ${profile.history}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Estado de ánimo:&lt;/strong&gt; ${profile.mood}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Solución esperada:&lt;/strong&gt; ${profile.expectedSolution}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4&gt;Puntos a evaluar:&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>${currentScenario.evaluationCriteria.map(criteria =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>`&lt;span class="badge"&gt;${criteria}&lt;/span&gt;`</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateStageDisplay();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Actualizar visualización de etapa actual</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateStageDisplay() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentScenario) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const currentStage = currentScenario.script[currentStageIndex];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentStageEl.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stage-indicator"&gt;Etapa: ${formatStageName(currentStage.stage)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Expectativas:&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${currentStage.expectedInfo.map(info =&gt; `&lt;li&gt;${info}&lt;/li&gt;`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Formato para nombre de etapa</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function formatStageName(stageName) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return stageName.charAt(0).toUpperCase() + stageName.slice(1).replace('_', ' ');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Enviar mensaje del cliente</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function sendCustomerMessage() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentScenario) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const currentStage = currentScenario.script[currentStageIndex];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentStage || currentQuestionIndex &gt;= currentStage.questions.length) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Pasar a la siguiente etapa si hay más</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (currentStageIndex &lt; currentScenario.script.length - 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentStageIndex++;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentQuestionIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>updateStageDisplay();</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setTimeout(sendCustomerMessage, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Fin de la simulación</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>displayEvaluation();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const message = currentStage.questions[currentQuestionIndex];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>addMessageToChat(message, 'customer');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Incrementar para la siguiente pregunta</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentQuestionIndex++;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Procesar respuesta del agente</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function processAgentResponse(response) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!currentScenario || !response.trim()) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>addMessageToChat(response, 'agent');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Registrar en el log de conversación</p>
+<p class="p1"><span class="Apple-converted-space">            </span>conversationLog.push({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stage: currentScenario.script[currentStageIndex].stage,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>customer: currentScenario.script[currentStageIndex].questions[currentQuestionIndex - 1],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>agent: response,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>timestamp: new Date().toISOString()</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Esperar un momento y continuar con la conversación</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(sendCustomerMessage, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Añadir mensaje al chat</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function addMessageToChat(message, sender) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const msgElement = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>msgElement.classList.add('message', sender);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const senderName = sender === 'customer'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>? currentScenario.customerProfile.name<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>: 'Agente de Call Center';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>msgElement.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;&lt;strong&gt;${senderName}:&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;${message}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="timestamp"&gt;${new Date().toLocaleTimeString()}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>chatMessages.appendChild(msgElement);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>chatMessages.scrollTop = chatMessages.scrollHeight;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Mostrar evaluación final</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function displayEvaluation() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Análisis simple de la conversación</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const evaluation = analyzeConversation();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>evaluationContent.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4&gt;Resultados de la Evaluación&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="criteria-ratings"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>${Object.entries(evaluation.scores).map(([criteria, score]) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="criteria-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label&gt;${criteria}:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;progress value="${score}" max="5"&gt;&lt;/progress&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span&gt;${score}/5&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4&gt;Puntuación Total: ${evaluation.totalScore}/${evaluation.maxPossibleScore}&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Fortalezas:&lt;/strong&gt; ${evaluation.strengths.join(', ')}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Áreas de mejora:&lt;/strong&gt; ${evaluation.areasToImprove.join(', ')}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="download-report" class="primary"&gt;Descargar Informe Completo&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Añadir funcionalidad de descarga (simulada)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('download-report').addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert('En una implementación completa, aquí se descargaría un informe detallado en PDF o Excel.');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Analizar la conversación para evaluación</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function analyzeConversation() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// En una implementación real, aquí se usaría IA para analizar</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// las respuestas y evaluar según criterios. Esta es una simulación simple.</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const scores = {};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentScenario.evaluationCriteria.forEach(criteria =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Simulación de puntuación entre 3 y 5</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scores[criteria] = Math.floor(Math.random() * 3) + 3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totalScore = Object.values(scores).reduce((sum, score) =&gt; sum + score, 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const maxPossibleScore = currentScenario.evaluationCriteria.length * 5;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Determinar fortalezas y áreas de mejora</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const strengths = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const areasToImprove = [];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>Object.entries(scores).forEach(([criteria, score]) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (score &gt;= 4) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>strengths.push(criteria);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>areasToImprove.push(criteria);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scores,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>totalScore,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>maxPossibleScore,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>strengths,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>areasToImprove</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Resetear simulación</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function resetSimulation() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentScenario = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentStageIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentQuestionIndex = 0;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>chatMessages.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>profileContent.innerHTML = '&lt;p&gt;Selecciona un escenario para iniciar la simulación.&lt;/p&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentStageEl.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>evaluationContent.innerHTML = '&lt;p&gt;La evaluación aparecerá al finalizar la simulación.&lt;/p&gt;';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>scenarioSelect.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>startBtn.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Event listeners</p>
+<p class="p1"><span class="Apple-converted-space">        </span>startBtn.addEventListener('click', startSimulation);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>resetBtn.addEventListener('click', resetSimulation);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>sendBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const response = agentInput.value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (response.trim()) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processAgentResponse(response);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>agentInput.value = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>agentInput.addEventListener('keypress', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (e.key === 'Enter') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = agentInput.value;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (response.trim()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>processAgentResponse(response);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>agentInput.value = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Inicialización</p>
+<p class="p1"><span class="Apple-converted-space">        </span>resetSimulation();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
